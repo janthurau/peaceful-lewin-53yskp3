@@ -10,20 +10,36 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hocuspocus/provider": "^2.4.0",
+    "@tiptap/core": "2.1.7",
+    "@tiptap/extension-collaboration": "2.1.7",
+    "@tiptap/extension-collaboration-cursor": "2.1.7",
+    "@tiptap/html": "2.1.7",
+    "@tiptap/pm": "2.1.7",
+    "@tiptap/react": "2.1.7",
+    "@tiptap/starter-kit": "2.1.7",
+    "prosemirror-model": "^1.7.1",
+    "prosemirror-state": "^1.2.3",
+    "prosemirror-view": "^1.9.10",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "yjs": "^13.6.7",
+    "y-prosemirror": "1.0.20"
   },
   "devDependencies": {
-    "@types/react": "^18.2.21",
+    "@hocuspocus/server": "^2.4.0",
+    "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.6.0",
-    "@typescript-eslint/parser": "^6.6.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
-    "eslint": "^8.48.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vitejs/plugin-react-swc": "^3.4.0",
+    "eslint": "^8.50.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "vite": "^4.4.9",
+    "y-protocols": "^1.0.5",
+    "yjs": "^13.6.7"
   }
 }
