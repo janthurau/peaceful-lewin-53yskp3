@@ -3,6 +3,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import { HocuspocusProvider } from "@hocuspocus/provider";
+import { ENABLE_REACT_STRICT_MODE } from "./main";
 
 const provider = new HocuspocusProvider({
   // !! Ensure the domain is the same as the one in the preview ->
@@ -11,24 +12,40 @@ const provider = new HocuspocusProvider({
 });
 
 function App() {
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({ history: false }),
-      Collaboration.configure({
-        document: provider.document,
-      }),
-      CollaborationCursor.configure({
-        provider,
-        user: {
-          name: getRandomElement(names),
-          color: getRandomElement(colors),
-        },
-      }),
-    ],
-  });
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit.configure({ history: false }),
+        Collaboration.configure({
+          document: provider.document,
+        }),
+        CollaborationCursor.configure({
+          provider,
+          user: {
+            name: getRandomElement(names),
+            color: getRandomElement(colors),
+          },
+        }),
+      ],
+    },
+    [],
+  );
 
   return (
     <div className="App">
+      <Description />
+      <h3>Editor:</h3>
+      <EditorContent
+        style={{ height: "500px", width: "100%", margin: "0 auto" }}
+        editor={editor}
+      />
+    </div>
+  );
+}
+
+function Description() {
+  return (
+    <>
       <p>
         To get set up and demonstrate the issue:
         <ol>
@@ -52,11 +69,11 @@ function App() {
           </li>
         </ol>
       </p>
-      <EditorContent
-        style={{ height: "500px", width: "500px" }}
-        editor={editor}
-      />
-    </div>
+      <p>
+        Strict Mode is{" "}
+        <strong>{ENABLE_REACT_STRICT_MODE ? "ON" : "OFF"}</strong>
+      </p>
+    </>
   );
 }
 
