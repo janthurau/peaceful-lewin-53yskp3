@@ -1,44 +1,71 @@
-import { EditorContent, useEditor } from "@tiptap/react";
+import {EditorContent, useEditor} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import { HocuspocusProvider } from "@hocuspocus/provider";
-import { ENABLE_REACT_STRICT_MODE } from "./main";
+import {HocuspocusProvider} from "@hocuspocus/provider";
+import {ENABLE_REACT_STRICT_MODE} from "./main";
+import {useEffect, useState} from "react";
+import * as Y from 'yjs'
 
-const provider = new HocuspocusProvider({
-  // !! Ensure the domain is the same as the one in the preview ->
-  url: "ws://yc6y8h-5173.csb.app:1234",
-  name: "example-document",
-});
+const EditorContainer = () => {
+  console.log('container rerendeer')
+
+  const [provider, setProvider] = useState(null);
+
+  useEffect(() => {
+    console.log('useeffect rerender')
+    const doc = new Y.Doc();
+
+    const provider = new HocuspocusProvider({
+      url: "ws://localhost:8080",
+      name: "example-document",
+      token: 'notkne'
+    });
+
+    setProvider(provider);
+
+    return () => {
+      provider.destroy();
+      setProvider(null);
+    };
+  }, []);
+
+  if (!provider) {
+    return null; // or show a loading indicator here
+  }
+
+  return <Editor provider={provider}/>;
+};
+
+const Editor = ({provider}) => {
+  console.log('editor rerendeer')
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({history: false}),
+      // ... your extensions here
+      Collaboration.configure({
+        document: provider.document,
+      }),
+      CollaborationCursor.configure({
+        provider,
+        user: {
+          name: getRandomElement(names),
+          color: getRandomElement(colors),
+        },
+      }),
+    ],
+  });
+
+  return <EditorContent editor={editor}/>;
+};
+
 
 function App() {
-  const editor = useEditor(
-    {
-      extensions: [
-        StarterKit.configure({ history: false }),
-        Collaboration.configure({
-          document: provider.document,
-        }),
-        CollaborationCursor.configure({
-          provider,
-          user: {
-            name: getRandomElement(names),
-            color: getRandomElement(colors),
-          },
-        }),
-      ],
-    },
-    [],
-  );
-
   return (
     <div className="App">
-      <Description />
+      <Description/>
       <h3>Editor:</h3>
-      <EditorContent
-        style={{ height: "500px", width: "100%", margin: "0 auto" }}
-        editor={editor}
-      />
+      <EditorContainer/>
     </div>
   );
 }
@@ -114,7 +141,9 @@ const names = [
   "Lisa Bonet",
 ];
 
-const getRandomElement = (list) =>
-  list[Math.floor(Math.random() * list.length)];
+const getRandomElement = (list) => {
+  console.log('get random element')
+  return list[Math.floor(Math.random() * list.length)];
+}
 
 export default App;
